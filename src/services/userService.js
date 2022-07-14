@@ -34,8 +34,15 @@ const create = async ({ displayName, email, password, image }) => {
   return { token };
 };
 
+const remove = async (id) => {
+  await User.destroy({
+    where: { id },
+  });
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  remove,
 };
