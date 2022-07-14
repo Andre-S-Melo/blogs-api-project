@@ -3,6 +3,12 @@ const jwt = require('jsonwebtoken');
 const err = require('../utils/error');
 const { User } = require('../database/models');
 
+const getAll = async () => {
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
+
+  return users;
+};
+
 const create = async ({ displayName, email, password, image }) => {
   const userExists = await User.findOne({ where: { email } });
 
@@ -21,5 +27,6 @@ const create = async ({ displayName, email, password, image }) => {
 };
 
 module.exports = {
+  getAll,
   create,
 };
