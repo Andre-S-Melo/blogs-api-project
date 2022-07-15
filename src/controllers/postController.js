@@ -36,8 +36,22 @@ const update = async (req, res, next) => {
   }
 };
 
+const remove = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    await postService.remove(userId, +id);
+
+    return res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   update,
+  remove,
 };

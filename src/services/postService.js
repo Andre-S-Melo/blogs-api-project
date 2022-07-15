@@ -43,8 +43,26 @@ const update = async (title, content, userId, id) => {
   return post;
 };
 
+const remove = async (userId, id) => {
+  const post = await BlogPost.findOne({
+    where: { id },
+    include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+
+  if (!post) throw err(404, 'Post does not exist');
+
+  if (userId !== post.userId) throw err(401, 'Unauthorized user');
+
+  const deletePost = await BlogPost.destroy({
+    where: { id },
+  });
+
+  return deletePost;
+};
+
 module.exports = {
   getAll,
   getById,
   update,
+  remove,
 };
