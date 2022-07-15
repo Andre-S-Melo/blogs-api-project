@@ -22,6 +22,18 @@ const getById = async (req, res, next) => {
   }
 };
 
+const getBySearch = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+
+    const search = await postService.getBySearch(q);
+
+    return res.status(200).json(search);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const update = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -52,6 +64,7 @@ const remove = async (req, res, next) => {
 module.exports = {
   getAll,
   getById,
+  getBySearch,
   update,
   remove,
 };
