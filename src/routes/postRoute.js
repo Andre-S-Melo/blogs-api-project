@@ -6,6 +6,7 @@ const validUpdate = require('../middlewares/postValidation');
 const route = express.Router();
 
 route.get('/', validateJWT, post.getAll);
+route.get('/search', validateJWT, post.getBySearch);
 route.get('/:id', validateJWT, post.getById);
 route.put('/:id', validateJWT, validUpdate, post.update);
 route.delete('/:id', validateJWT, post.remove);
