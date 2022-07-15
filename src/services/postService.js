@@ -22,7 +22,29 @@ const getById = async (id) => {
   return post;
 };
 
+const update = async (title, content, userId, id) => {
+  const post = await BlogPost.findOne({
+    where: { id },
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+    { model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+
+  if (!post) throw err(404, 'Post does not exist');
+
+  if (userId !== post.userId) throw err(401, 'Unauthorized user');
+
+  post.set({
+    title,
+    content,
+  });
+
+  await post.save();
+
+  return post;
+};
+
 module.exports = {
   getAll,
   getById,
+  update,
 };
