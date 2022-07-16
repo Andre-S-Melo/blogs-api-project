@@ -27,15 +27,17 @@ module.exports = {
           key: 'id',
         },
       },
-      published: {
+      createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'published',
       },
-      updated: {
+      updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'updated',
       },
     });
   },

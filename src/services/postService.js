@@ -45,17 +45,21 @@ const getBySearch = async (q) => {
 };
 
 const create = async ({ id, title, content, categoryIds }) => {
+  // Verifica se as categorias existem
   await Promise.all(categoryIds.map(async (categoryId) => {
     const category = await Category.findByPk(categoryId);
 
     if (!category) throw err(400, '"categoryIds" not found');
   }));
 
+  // Cria o post no BD
   const newPost = await BlogPost.create({ userId: id, title, content });
 
+  // Adiciona o postId e categoryId na tabela intermediária via função add do sequelize
+  // https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/
   const categories = await Category.findAll({ where: { id: categoryIds } });
 
-  await newPost.addCategories(categories);
+  newPost.addCategories(categories);
 
   return newPost;
 };
