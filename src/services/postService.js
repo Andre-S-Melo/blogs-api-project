@@ -44,6 +44,22 @@ const getBySearch = async (q) => {
   return posts;
 };
 
+const create = async ({ id, title, content, categoryIds }) => {
+  await Promise.all(categoryIds.map(async (categoryId) => {
+    const category = await Category.findByPk(categoryId);
+
+    if (!category) throw err(400, '"categoryIds" not found');
+  }));
+
+  const newPost = await BlogPost.create({ userId: id, title, content });
+
+  const categories = await Category.findAll({ where: { id: categoryIds } });
+
+  await newPost.addCategories(categories);
+
+  return newPost;
+};
+
 const update = async (title, content, userId, id) => {
   const post = await BlogPost.findOne({
     where: { id },
@@ -86,6 +102,7 @@ module.exports = {
   getAll,
   getById,
   getBySearch,
+  create,
   update,
   remove,
 };

@@ -34,6 +34,19 @@ const getBySearch = async (req, res, next) => {
   }
 };
 
+const create = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const { title, content, categoryIds } = req.body;
+
+    const newPost = await postService.create({ id, title, content, categoryIds });
+
+    return res.status(201).json(newPost);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const update = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -65,6 +78,7 @@ module.exports = {
   getAll,
   getById,
   getBySearch,
+  create,
   update,
   remove,
 };
