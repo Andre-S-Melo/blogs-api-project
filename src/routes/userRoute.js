@@ -1,13 +1,13 @@
-const express = require('express');
+const { Router } = require('express');
 const user = require('../controllers/userController');
 const validateJWT = require('../middlewares/validateJWT');
 const { validUser } = require('../middlewares/userValidation');
 
-const route = express.Router();
+const router = Router();
 
-route.get('/', validateJWT, user.getAll);
-route.post('/', validUser, user.create);
-route.delete('/me', validateJWT, user.remove);
-route.get('/:id', validateJWT, user.getById);
+router.get('/', validateJWT, user.getAll);
+router.post('/', validUser, user.create);
+router.delete('/me', validateJWT, user.remove);
+router.get('/:id', validateJWT, user.getById);
 
-module.exports = route;
+module.exports = router;
